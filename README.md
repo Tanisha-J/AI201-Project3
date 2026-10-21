@@ -42,7 +42,13 @@
 <!-- Your community, and what your classifier sorts posts into. Three or four
      sentences. -->
 
-
+TakeMeter sorts comments from **r/nba**, Reddit's main basketball community,
+by what kind of contribution they make. Every comment gets one of three
+labels: `evidence` (a claim backed by something you could check), `take` (an
+opinion or prediction with nothing checkable behind it), or `banter` (jokes,
+reactions and chatter that aren't trying to persuade anyone). The point is to
+separate the comments that bring something verifiable to a thread from the
+much larger volume of confident opinion and noise around them.
 
 ---
 
@@ -54,34 +60,56 @@
      The decision rule is worth a point on its own and it's the thing most
      people leave out. Every taxonomy has a hardest boundary. Name yours. -->
 
-### `label_one`
+### `evidence`
 
-**Definition:**
-
-**Example 1:**
->
-
-**Example 2:**
->
-
-### `label_two`
-
-**Definition:**
+**Definition:** Makes a claim about players, teams or the league and backs it
+with something a reader could check: a stat, date, score, contract or trade
+detail, or named source.
 
 **Example 1:**
->
+> Lou Williams never scored more than 21 points in a 4th quarter for the Clippers. Took me 20 seconds.
 
 **Example 2:**
->
+> Nigeria to Heat is a serious pipeline, in 2021 we had 6 players who’s had a parent from Nigeria. Gabe Vincent, Precious Achiuwa, Bam, Victor Oladipo, Andre Iguodala, Kz Okpala.
+
+### `take`
+
+**Definition:** States an opinion or prediction about players, teams or the
+league, with no checkable fact doing the arguing.
+
+**Example 1:**
+> Lmao if KD proved anything it's that he will never win a ring outside of GSW. Elite scorer but that's where it ends. Alwayzs #2.
+
+**Example 2:**
+> He's a dirty player that purposely tries to injure opponents. Funny tweets don't make up for that.
+
+### `banter`
+
+**Definition:** A joke, reaction or chatter that isn't trying to convince
+anyone of anything.
+
+**Example 1:**
+> GM during his early Cavs years: Bron, it's hard for us to get you great teammates. Bron: Fine, I'll do it myself.
+
+**Example 2:**
+> Shoot for the moon, because even if you miss, you might end up in LeBron's grandpa arms
 
 ### The hardest boundary
 
-**Which two labels:**
+**Which two labels:** `evidence` and `take`: posts that are half fact, half
+opinion. For example:
+
+> Kat was a different player the last two years than he was in mn. He out on weight and stopped playing like he was 6'6"
 
 **The decision rule I used every time:**
 <!-- e.g. "If the post names a specific checkable fact, it's `analysis`, even
      if the tone is heated." -->
 
+If a post is mostly opinion and the fact is only a side detail, it's `take`.
+It's `evidence` only when the checkable fact is what carries the argument —
+take the fact out and the claim would be left with no support. The KAT post
+above is `take`: "put on weight" and "stopped playing like he was 6'6"" are
+impressions, not something you could look up.
 
 
 ---
