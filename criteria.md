@@ -51,63 +51,49 @@ whether you hit them:
 
 ---
 
-## 1.
+## 1. Overall accuracy is at least 0.70 on the held-out set
 
-<!-- Your criterion. It must name a number. -->
-
-
-
-**Why this target:**
-
-
+**Why this target:** Sorting these posts is partly a judgment call. People
+bring their own opinions, biases and reading of what a post means, so even a
+careful labeller won't be right every time and I'm not asking for 0.90. But
+0.70 is well above the 0.47 you'd get by always guessing `take`, my biggest
+label, so hitting it means the model learned something real.
 
 ---
 
-## 2.
+## 2. `take` and `banter` each have an F1 of at least 0.70 on the held-out set
 
-<!-- Your criterion. -->
-
-
-
-**Why this target:**
-
-
+**Why this target:** These are my two big labels (95 and 79 posts), so the
+model has the most to learn from, and I'm holding them to the same bar as
+overall accuracy. I'm not setting it higher for the same reason as #1: whether
+a post is an opinion or just chatter depends partly on how you read it.
 
 ---
 
-## 3.
+## 3. `evidence` has an F1 of at least 0.90 on the held-out set
 
-<!-- Your criterion. -->
-
-
-
-**Why this target:**
-
-
+**Why this target:** An `evidence` post has to be backed by something proven
+and well sourced, so this is the label where I want the model to be most
+precise. Calling an opinion "evidence" is the mistake that would make this
+classifier misleading.
 
 ---
 
-## 4.
+## 4. No label is more than 50% of labels.csv
 
-<!-- Your criterion. -->
-
-
-
-**Why this target:**
-
-
+**Why this target:** Opinions are the most common kind of post on r/nba,
+because everyone brings their own biases and takes, so `take` is naturally my
+biggest label (47% right now). A 50% cap lets it stay the biggest without the
+data getting so lopsided that the model learns to just guess `take`.
 
 ---
 
-## 5.
+## 5. I agree with the staff labels on at least 70% of the 30 posts in the agreement set
 
-<!-- Your criterion. -->
-
-
-
-**Why this target:**
-
-
+**Why this target:** I'm not well versed in basketball, so I'll miss context
+that a long-time fan would catch, like whether a stat is real or a reference is
+a joke. 70% allows for that, while still meaning I applied the definitions
+the same way most of the time.
 
 ---
 
