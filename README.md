@@ -184,16 +184,31 @@ disagreed with (`pre-labelled by Claude, checked by me` in the note column).
 
 <!-- Your starting model, your settings, and anything you changed and why. -->
 
-**Base model:**
+**Base model:** `distilbert-base-uncased`
 
 **Settings:** <!-- epochs, learning rate, batch size, seed -->
+3 epochs, learning rate 2e-5, batch size 16, 128 tokens per post, seed 42.
 
-**Anything I changed from the defaults, and why:**
+**Anything I changed from the defaults, and why:** Nothing. Every setting is
+the notebook default.
+
+**Trained on:** `mps` (Apple Silicon GPU), torch 2.14.1, as recorded in
+`results.json`. Training took about 24 seconds.
 
 **Split sizes:** <!-- train / val / test, and per-label counts in the test
 split. If a label had fewer than about 8 in test, say so — it explains a lot
 of next unit's variance. -->
 
+train 140 · val 31 · test 31
+
+| Label | Train | Val | Test |
+|---|---|---|---|
+| `evidence` | 20 | 4 | 4 |
+| `take` | 65 | 15 | 15 |
+| `banter` | 55 | 12 | 12 |
+
+`evidence` has only **4** posts in the test split, below the ~8 the notebook
+warns about, so its F1 will move a lot between seeds.
 
 
 ---
@@ -209,17 +224,35 @@ of next unit's variance. -->
 
 **Moment 1**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* I asked Claude (Claude Code) to pick a community and
+  suggest labels.
+- *What came back:* It suggested r/nba, collected the comments with a script
+  from Reddit's public RSS feeds, and proposed two taxonomies: three labels
+  (`evidence` / `take` / `banter`) or four (`analysis` / `hot_take` /
+  `reaction` / `joke`).
+- *What I changed:* I chose the three-label version. For the hardest
+  boundary, Claude laid out the options and I picked the decision rule: a
+  post that's half fact, half opinion is `take` unless the fact carries the
+  argument.
 
 **Moment 2**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* Help turning my criteria numbers into criteria.md.
+- *What came back:* Claude pointed out that my first cap, "no label above
+  40%", was already failed by my own data (`take` is 47%), and that a 0.90
+  target for `evidence` is very hard with only ~4 test posts. It wrote my
+  reasons up as full sentences.
+- *What I changed:* I raised the cap to 50%. I raised the `evidence` target
+  from 0.57 to 0.90 and kept it there.
 
-**Pre-labelling disclosure:**
+**Pre-labelling disclosure:** I labelled 20 posts cold, by hand, before
+seeing any AI labels. Claude pre-labelled the other 182 using my definitions
+and decision rule, and flagged 7 posts it found borderline. I read all 182
+and changed the ones I disagreed with: post 92 ("Studies have been done…")
+went from `take` to `evidence`, and post 113 ("One conference final
+appearance") went from `evidence` to `take` and back to `evidence`. Claude
+also wrote the first draft of most of this README, from my choices and my
+reasons.
 
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 
