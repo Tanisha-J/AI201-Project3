@@ -119,19 +119,31 @@ impressions, not something you could look up.
 <!-- Where you collected from, how you labelled, your counts, and three hard
      cases. -->
 
-**Where the posts came from:**
+**Where the posts came from:** Public comments from r/nba, collected in
+October 2026 from the subreddit's public RSS feeds. They come from 32 threads
+from the subreddit's top and hot listings: trade and injury news, the 2026
+playoffs and Finals, game highlights, and post-game threads. I left out 12
+threads that were mostly about politics or off-court topics, took up to 8
+comments of at least 80 characters from each of the rest, and dropped
+anything that wasn't about basketball (tangents about Halloween decorations,
+F1, cartoons and so on), plus one comment that was only an image link. That
+left 202 posts, kept whole.
 
 **How I labelled them:** <!-- Cold first? Pre-labelled with AI and corrected?
 Say so plainly — the disclosure is required, not penalised. -->
+
+I labelled 20 posts cold first, by hand, from my definitions only (`cold` in
+the note column). Claude pre-labelled the other 182 using my definitions and
+decision rule (`pre-labelled by Claude` in the note column).
 
 **Counts per label:**
 
 | Label | Count | Share |
 |---|---|---|
-|  |  |  |
-|  |  |  |
-|  |  |  |
-| **Total** |  | 100% |
+| `take` | 95 | 47.0% |
+| `banter` | 79 | 39.1% |
+| `evidence` | 28 | 13.9% |
+| **Total** | 202 | 100% |
 
 **Three hard cases**
 
@@ -139,25 +151,31 @@ Say so plainly — the disclosure is required, not penalised. -->
      been, and what you chose. These are worth more than the easy 190. -->
 
 **1.**
-> *The post:*
+> *The post:* I’m obviously biased but I’d argue that Jimmy dragging two separate underdog teams to the finals is much more impressive than Wiggins or KAT winning titles as 2nd options. BUT I’m a huge UK guy so KAT will always be my boy. I can recognize how much of a chode Jimmy was being to those guys. I’m super happy that KAT and Wiggins got rings and were meaningful contributors when they got them.
 >
-> *Could have been:*
+> *Could have been:* `evidence` or `take`
 >
-> *I chose, because:*
+> *I chose, because:* `take`. The poster says up front they're biased, and
+> bias means opinion. The Finals runs are real, but the post is about which is
+> "more impressive", which is a judgment.
 
 **2.**
-> *The post:*
+> *The post:* Studies have been done showing Achilles tears are most common when increasing strain or working out harder after a period of rest or less intense activity. Playoff minutes increases after an easy taper to the season. Or after a lengthy off season of low intensity work.
 >
-> *Could have been:*
+> *Could have been:* `evidence` or `take`
 >
-> *I chose, because:*
+> *I chose, because:* `evidence`. It points to studies, which is a source you
+> could go and check, and the studies are what the whole argument rests on.
 
 **3.**
-> *The post:*
+> *The post:* The clippers got hammered hard. Franchise altering. And for what? One conference final appearance
 >
-> *Could have been:*
+> *Could have been:* `evidence` or `take`
 >
-> *I chose, because:*
+> *I chose, because:* `evidence`. "Franchise altering" sounds like opinion,
+> but the point rests on one checkable fact: the Clippers made one conference
+> final in that era. Take the fact out and the post has nothing left, so under
+> my decision rule it's `evidence`.
 
 ---
 
