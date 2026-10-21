@@ -134,7 +134,8 @@ Say so plainly — the disclosure is required, not penalised. -->
 
 I labelled 20 posts cold first, by hand, from my definitions only (`cold` in
 the note column). Claude pre-labelled the other 182 using my definitions and
-decision rule (`pre-labelled by Claude` in the note column).
+decision rule. I then read every one of those 182 and corrected the ones I
+disagreed with (`pre-labelled by Claude, checked by me` in the note column).
 
 **Counts per label:**
 
