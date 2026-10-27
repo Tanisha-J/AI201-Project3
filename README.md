@@ -344,7 +344,7 @@ epochs, lr 2e-5, batch 16). Recorded in `results_three_seeds_before.json`.
 | 2. F1 on `take` and `banter` | each ≥ 0.70 | take 0.652 · banter 0.000 | take 0.652 · banter 0.000 | take 0.682 · banter 0.286 | MISSED |
 | 3. F1 on `evidence` | ≥ 0.90 | 0.000 | 0.000 | 0.000 | MISSED |
 | 4. Largest label share of labels.csv | ≤ 50% | 47.0% | 47.0% | 47.0% | MET |
-| 5. Agreement with staff on 30 posts | ≥ 70% | — | — | — | *pending agreement check* |
+| 5. Agreement with staff on 30 posts | ≥ 70% | 87% (26/30) | — | — | MET |
 
 Criterion 4 is a property of `labels.csv`, not of a split, so it's the same
 for every seed. Criterion 5 is measured once, on the staff set, not per seed.
@@ -421,7 +421,7 @@ Seed 42 (section 7 prints the first seed):
      data/staff_taxonomy.md, not your own — so every argument below is made
      from those definitions and those decision rules. -->
 
-**Agreement rate:** ___ / 30 = ___%
+**Agreement rate:** 26 / 30 = 87% (`agreement_results.json`)
 
 <!-- Nobody grades this number. A 60% who argues every disagreement from the
      stated rules beats a 95% who wrote "staff was right" nine times. Several
@@ -443,19 +443,37 @@ Seed 42 (section 7 prints the first seed):
      written rule two different ways on 30 posts, that is direct evidence about
      what you did across your own 200. -->
 
-**1.**
-> *The post:*
+**1.** (sp_010, flagged borderline by staff)
+> *The post:* Three of us ran the same session on the same day, different shoes, within 10 seconds of each other over 5 miles. I'm not saying shoes do nothing, but whatever they do was smaller than the noise between three people.
 >
-> *Staff said / I said:*
+> *Staff said / I said:* `analysis` / `hot_take`
 >
 > *My call, and why:*
 >
 > *Which pile:*
 
-**2.**
-> *The post:*
+**2.** (sp_013)
+> *The post:* The club needs to stop pretending the Tuesday session is for everyone. It isn't and it never has been.
 >
-> *Staff said / I said:*
+> *Staff said / I said:* `hot_take` / `reaction`
+>
+> *My call, and why:*
+>
+> *Which pile:*
+
+**3.** (sp_014, flagged borderline by staff)
+> *The post:* Times are down about 3% since the shoe rules changed, so obviously the shoes are the whole story and the sport has a problem.
+>
+> *Staff said / I said:* `hot_take` / `reaction`
+>
+> *My call, and why:*
+>
+> *Which pile:*
+
+**4.** (sp_020, flagged borderline by staff)
+> *The post:* Every injury thread on this forum is the same injury and the same three replies.
+>
+> *Staff said / I said:* `hot_take` / `reaction`
 >
 > *My call, and why:*
 >
