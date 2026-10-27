@@ -254,6 +254,20 @@ appearance") went from `evidence` to `take` and back to `evidence`. Claude
 also wrote the first draft of most of this README, from my choices and my
 reasons.
 
+**Unit 6 — Moment 3**
+
+- *What I asked for:* I had Claude (Claude Code) run the baseline, the
+  three-seed retrain and the agreement script, and draft the write-up.
+- *What came back:* It ran each step, wrote the numbers into this README and
+  drafted the "what the gap means", diagnosis, improvement and "still broken"
+  sections. It pointed out that the training loss (1.01–1.03) had barely
+  moved from random guessing (about 1.10), which is what pointed the
+  improvement at epochs rather than relabelling. For the staff disagreements
+  it laid out the strongest case for each label without saying who was right.
+- *What I did myself:* I wrote my baseline prediction before seeing any
+  baseline numbers. I labelled all 30 staff posts myself before getting the
+  staff labels, and wrote the call and pile for each disagreement.
+
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 
      Don't fill these in during unit 5.
@@ -529,40 +543,100 @@ boundary in my 202 labels most likely to be inconsistent.
 
 ## The Improvement
 
-**What I changed:**
+**What I changed:** One training setting: `EPOCHS` from 3 to 10 in section 2
+of the notebook. Labels, taxonomy, criteria, learning rate, batch size and the
+three seeds are all unchanged. Re-run with `RUN_LABEL = "after"`; results in
+`results_three_seeds_after.json`.
 
-**Which diagnosis pointed at it:**
+**Which diagnosis pointed at it:** Criteria 1 and 2. The before-run's training
+loss finished at 1.01–1.03 against about 1.10 for random guessing, and two of
+the three seeds predicted `take` for every post. The model wasn't failing on a
+boundary; it hadn't trained long enough to try one. More epochs is the most
+direct fix for that. I didn't pick "add examples" because that targets
+`evidence` only, and I didn't pick "relabel" because 87% agreement didn't
+point at a labelling problem big enough to explain a model that never left
+the majority label.
 
 ### Run Log — After
 
+Same device (`mps`, torch 2.14.1), same seeds, 10 epochs.
+
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+| 1. Overall accuracy | ≥ 0.70 | 0.581 | 0.677 | 0.613 | MISSED |
+| 2. F1 on `take` and `banter` | each ≥ 0.70 | take 0.629 · banter 0.636 | take 0.688 · banter 0.769 | take 0.684 · banter 0.600 | MISSED |
+| 3. F1 on `evidence` | ≥ 0.90 | 0.000 | 0.000 | 0.000 | MISSED |
+| 4. Largest label share of labels.csv | ≤ 50% | 47.0% | 47.0% | 47.0% | MET |
+| 5. Agreement with staff on 30 posts | ≥ 70% | 87% (26/30) | — | — | MET |
 
-**Did it help, and how do I know:**
+Criteria 4 and 5 don't depend on training, so they can't change.
 
-<!-- If it didn't, say so. Relabelling that didn't help is a genuinely
-     interesting result and earns full credit. -->
+**Before and after, side by side:**
 
+| Measure | Before (3 epochs) | After (10 epochs) |
+|---|---|---|
+| Accuracy | 0.484 · 0.484 · 0.548 | 0.581 · 0.677 · 0.613 |
+| Macro F1 | 0.217 · 0.217 · 0.323 | 0.422 · 0.486 · 0.428 |
+| F1 — `evidence` | 0.000 · 0.000 · 0.000 | 0.000 · 0.000 · 0.000 |
+| F1 — `take` | 0.652 · 0.652 · 0.682 | 0.629 · 0.688 · 0.684 |
+| F1 — `banter` | 0.000 · 0.000 · 0.286 | 0.636 · 0.769 · 0.600 |
+| Final training loss | 1.022 · 1.006 · 1.026 | 0.753 · 0.770 · 0.772 |
 
+Seeds in order 42 · 7 · 2024. Accuracy spread across seeds went from 6.5 to
+9.7 points, just under the 10-point line.
+
+Confusion matrix after, seed 42:
+
+| true \ predicted | evidence | take | banter |
+|---|---|---|---|
+| **evidence** | 0 | 4 | 0 |
+| **take** | 1 | 11 | 3 |
+| **banter** | 0 | 5 | 7 |
+
+**Did it help, and how do I know:** Yes, for `take` vs `banter`, and not at
+all for `evidence`. Accuracy rose on every seed (by 10, 19 and 6 points) and
+`banter` went from essentially never predicted to an F1 of 0.60–0.77. The
+model now actually uses the `take`/`banter` boundary: on seed 42, 5 `banter`
+posts went to `take` and 3 went the other way, which is a real two-way
+confusion rather than a collapse. It still doesn't meet any of criteria 1–3.
+`evidence` is unchanged: all 4 `evidence` posts went to `take` on every seed,
+and the model predicted `evidence` once in 93 test posts (wrongly). More
+training didn't help a label with 20 training examples.
 
 ---
 
 ## What's Still Broken
 
-<!-- For each criterion still missed: what you'd do, and why you stopped. -->
+**Criterion 1 (accuracy ≥ 0.70).** Best seed is now 0.677, but the target has
+to hold on all three and seed 42 is at 0.581. Every `evidence` post is
+currently a guaranteed miss (4 of 31, about 13 points of accuracy), so the
+next fix would be the one for criterion 3. I stopped because the unit allows
+one change.
 
+**Criterion 2 (`take` and `banter` F1 ≥ 0.70).** `banter` hit 0.769 on one
+seed and `take` reached 0.688, but neither holds across all three. The
+remaining errors are on the `take`/`banter` boundary, which is the boundary my
+agreement check says I'm least consistent on (3 of 4 disagreements were
+claim vs feeling). Next I'd re-read the `take` and `banter` rows in
+`labels.csv` and apply one rule for short sarcastic posts. I stopped because
+that's a second change, and the brief allows one.
 
+**Criterion 3 (`evidence` F1 ≥ 0.90).** Still 0.00 on every seed. The fix is
+more data: about 30 more `evidence` posts from r/nba, labelled with the same
+rule. With 4 test posts the F1 jumps in steps of about 0.25, so even a working
+model would struggle to show 0.90 across three seeds. I stopped because
+collecting and labelling 30 new posts is a second improvement.
 
 **The gap between what I meant my labels to capture and what the model
 learned:**
-<!-- Two sentences. Your confusion matrix is the evidence. -->
 
-
+I meant `evidence` to mean "a checkable fact carries the argument", but the
+model never predicted it correctly once and sends every `evidence` post to
+`take`, so all it has learned is that `evidence` posts look like opinions
+about players. It has partly learned the `take`/`banter` line, but the
+two-way errors in the matrix (5 one way, 3 the other) sit on the same
+claim-vs-feeling boundary where I disagreed with staff, so some of what it
+can't learn there is my own inconsistency.
 
 <!-- ═════════════════════════════════════════════════════════════════════
 
