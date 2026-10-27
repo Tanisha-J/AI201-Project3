@@ -448,36 +448,36 @@ Seed 42 (section 7 prints the first seed):
 >
 > *Staff said / I said:* `analysis` / `hot_take`
 >
-> *My call, and why:*
+> *My call, and why:* hot take because it is only 3 of them
 >
-> *Which pile:*
+> *Which pile:* c
 
 **2.** (sp_013)
 > *The post:* The club needs to stop pretending the Tuesday session is for everyone. It isn't and it never has been.
 >
 > *Staff said / I said:* `hot_take` / `reaction`
 >
-> *My call, and why:*
+> *My call, and why:* hot take because they may have gone to multiple tuesday sessions and observed this but it is an opinion
 >
-> *Which pile:*
+> *Which pile:* a
 
 **3.** (sp_014, flagged borderline by staff)
 > *The post:* Times are down about 3% since the shoe rules changed, so obviously the shoes are the whole story and the sport has a problem.
 >
 > *Staff said / I said:* `hot_take` / `reaction`
 >
-> *My call, and why:*
+> *My call, and why:* reaction because it says 'so obviously' and makes some claim with no actual evidence
 >
-> *Which pile:*
+> *Which pile:* c
 
 **4.** (sp_020, flagged borderline by staff)
 > *The post:* Every injury thread on this forum is the same injury and the same three replies.
 >
 > *Staff said / I said:* `hot_take` / `reaction`
 >
-> *My call, and why:*
+> *My call, and why:* reaction because it is talking about every injury but it's probably an exaggeration
 >
-> *Which pile:*
+> *Which pile:* c
 
 **What the pattern in my disagreements tells me:**
 
