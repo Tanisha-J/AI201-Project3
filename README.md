@@ -381,6 +381,9 @@ Seed 42 (section 7 prints the first seed):
      direction. "7 real analysis posts were called hot_take and only 3 went the
      other way" is a direction, not just an error rate. -->
 
+12 real `banter` posts were called `take` and none went the other way, but
+that isn't one boundary the model failed to learn: it called *every* post
+`take`, so the model never learned to separate `banter` from `take` at all.
 
 
 ---
@@ -392,11 +395,11 @@ Seed 42 (section 7 prints the first seed):
 
 | # | Criterion | Target | Verdict | How I decided |
 |---|---|---|---|---|
-| 1 |  |  |  |  |
-| 2 |  |  |  |  |
-| 3 |  |  |  |  |
-| 4 |  |  |  |  |
-| 5 |  |  |  |  |
+| 1 | Overall accuracy | ≥ 0.70 | MISSED | Best seed was 0.548; none of the three came within 15 points |
+| 2 | F1 on `take` and `banter` | each ≥ 0.70 | MISSED | `take` reached 0.65–0.68, close but under on every seed; `banter` was 0.00, 0.00, 0.29 |
+| 3 | F1 on `evidence` | ≥ 0.90 | MISSED | 0.00 on all three seeds: the model never predicted `evidence` once |
+| 4 | Largest label share of labels.csv | ≤ 50% | MET | `take` is 95 of 202 = 47.0%. This is a property of the data, so it holds on every seed |
+| 5 | Agreement with staff on 30 posts | ≥ 70% | MET | 26 of 30 = 87% |
 
 **Diagnoses**
 
@@ -409,6 +412,41 @@ Seed 42 (section 7 prints the first seed):
      have that can tell a LABELLING problem from a MODEL problem, and this
      section is graded on whether you used it that way. -->
 
+**Criteria 1 and 2 — the model didn't train long enough to learn anything.**
+On seeds 42 and 7 the model predicted `take` for all 31 test posts, and on
+seed 2024 it got only 2 `banter` posts right. Its accuracy is just the share of
+`take` in the test split (15/31 = 0.484). The training loss shows why: it
+ended at 1.022, 1.006 and 1.026 on the three seeds, and a model guessing at
+random between three labels has a loss of about 1.10. With 140 training
+posts, batch size 16 and 3 epochs, the model gets only 27 updates at a small
+learning rate (2e-5), so it learned "say the most common label" and stopped
+there. This is a training problem, not a labelling problem, and I can tell
+because:
+
+- The two seeds where the model collapsed produced *identical* confusion
+  matrices despite having different test posts. If my labels were
+  inconsistent, the errors would move around between splits. Instead the
+  model never tried.
+- My agreement check came out at 87%, above my 70% target. If I applied
+  definitions loosely in general, I'd expect that number to be lower.
+
+The agreement report does point at one weak spot. 3 of my 4 disagreements
+were staff `hot_take` vs my `reaction`: a general claim with no support vs
+someone's feelings. That's the same kind of line as my own `take` vs `banter`
+boundary, which is exactly where the matrix puts 12 errors. So once the model
+trains properly, I expect `banter`/`take` to be where its remaining mistakes
+come from, and some of them will be mine. Right now the matrix can't show
+that, because the model isn't using the boundary at all.
+
+**Criterion 3 — too few `evidence` examples, on top of the training problem.**
+`evidence` has 28 posts in total: 20 in training and 4 in each test split. The
+model never predicted it once on any seed. Even after the training is fixed,
+an F1 on 4 posts can only take a few values (every miss costs about 0.25 of
+recall), so a 0.90 target needs nearly perfect results on a sample that
+small. This is the "too few examples for a label" cause. My agreement check
+had only one `analysis` disagreement out of 9 staff `analysis` posts, so I
+don't think I'm applying the "fact carries the argument" rule
+inconsistently.
 
 
 ---
@@ -481,6 +519,10 @@ Seed 42 (section 7 prints the first seed):
 
 **What the pattern in my disagreements tells me:**
 
+Three of the four are the same boundary: staff said `hot_take` and I said
+`reaction`. I lean towards reading short, sharp posts as feelings rather than
+claims. In my own taxonomy that's the `take` vs `banter` line, so that's the
+boundary in my 202 labels most likely to be inconsistent.
 
 
 ---
