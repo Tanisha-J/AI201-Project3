@@ -266,12 +266,31 @@ reasons.
 <!-- Both models on the same posts. `python baseline.py --trained results.json`
      prints this table for you. -->
 
+Baseline: `facebook/bart-large-mnli`, zero-shot, on the same 31 posts in
+`test_split.csv`. Trained: the unit-5 run, seed 42 (`results.json`).
+
 | Measure | Baseline | Trained | Difference |
 |---|---|---|---|
-| Overall accuracy |  |  |  |
-| Macro F1 |  |  |  |
-| F1 — `label_one` |  |  |  |
-| F1 — `label_two` |  |  |  |
+| Overall accuracy | 0.129 | 0.484 | +0.355 |
+| Macro F1 | 0.078 | 0.217 | +0.139 |
+| F1 — `banter` | 0.000 | 0.000 | +0.000 |
+| F1 — `evidence` | 0.235 | 0.000 | -0.235 |
+| F1 — `take` | 0.000 | 0.652 | +0.652 |
+
+**What my definitions were worth.** I ran the baseline a second time without
+`label_definitions.txt`, so it only had the bare label names
+(`baseline_results_bare_names.json`):
+
+| Measure | Bare names | With my definitions | Difference |
+|---|---|---|---|
+| Overall accuracy | 0.452 | 0.129 | -0.323 |
+| Macro F1 | 0.207 | 0.078 | -0.129 |
+| F1 — `banter` | 0.000 | 0.000 | +0.000 |
+| F1 — `evidence` | 0.000 | 0.235 | +0.235 |
+| F1 — `take` | 0.622 | 0.000 | -0.622 |
+
+The baseline in the main table is the run **with** my definitions, as the
+brief asks.
 
 **What I predicted before I looked:**
 <!-- Milestone 1 asks you to write this BEFORE seeing the trained numbers. A
@@ -283,6 +302,29 @@ and numbers.
 **What the gap actually means:**
 <!-- If the baseline matched your trained model, your fine-tuning added
      nothing — and that is a real finding, not a failure. Say it plainly. -->
+
+My prediction was half right. The baseline did beat my trained model on
+`evidence` F1 (0.235 vs 0.000), but only because it called 30 of the 31 posts
+`evidence`: it caught all 4 real ones and was wrong on the other 26
+(precision 0.13). It didn't recognise stats and numbers. It said
+`evidence` to almost everything.
+
+The trained model wins on accuracy by 35 points, but that isn't evidence that
+fine-tuning learned my labels either. It called every post `take`, so its
+0.484 is just the share of `take` in the test split. Both models collapsed
+onto a single label; they just picked different ones. The real comparison is
+that neither model separated the three labels at all, so the 35-point gap
+measures which label each one defaulted to, not how much the training taught.
+
+My definitions cost the zero-shot model 32 points of accuracy. With bare
+names it mostly guessed `take` and scored 0.452. With my definitions it
+guessed `evidence`. My `evidence` definition is the longest and most generic
+of the three ("makes a claim about players, teams or the league…"), and
+almost any NBA comment can be read as making a claim about players or teams,
+so the model matched nearly every post to it.
+
+Runtime: the baseline took a few seconds per post on `mps`. The trained model
+scores all 31 in under a second.
 
 
 
