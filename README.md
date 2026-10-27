@@ -290,24 +290,46 @@ reasons.
 <!-- Five criteria across three seeds. The notebook's section 6 prints the
      spread table; the Target and Verdict columns are yours. -->
 
+Trained on `mps` (Apple Silicon GPU), torch 2.14.1, notebook defaults (3
+epochs, lr 2e-5, batch 16). Recorded in `results_three_seeds_before.json`.
+
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+| 1. Overall accuracy | ≥ 0.70 | 0.484 | 0.484 | 0.548 | MISSED |
+| 2. F1 on `take` and `banter` | each ≥ 0.70 | take 0.652 · banter 0.000 | take 0.652 · banter 0.000 | take 0.682 · banter 0.286 | MISSED |
+| 3. F1 on `evidence` | ≥ 0.90 | 0.000 | 0.000 | 0.000 | MISSED |
+| 4. Largest label share of labels.csv | ≤ 50% | 47.0% | 47.0% | 47.0% | MET |
+| 5. Agreement with staff on 30 posts | ≥ 70% | — | — | — | *pending agreement check* |
+
+Criterion 4 is a property of `labels.csv`, not of a split, so it's the same
+for every seed. Criterion 5 is measured once, on the staff set, not per seed.
+
+The full spread, from section 6:
+
+| Measure | Seed 42 | Seed 7 | Seed 2024 | Spread |
+|---|---|---|---|---|
+| Overall accuracy | 0.484 | 0.484 | 0.548 | 0.065 |
+| Macro F1 | 0.217 | 0.217 | 0.323 | 0.105 |
+| F1 — `evidence` | 0.000 | 0.000 | 0.000 | 0.000 |
+| F1 — `take` | 0.652 | 0.652 | 0.682 | 0.030 |
+| F1 — `banter` | 0.000 | 0.000 | 0.286 | 0.286 |
+
+Accuracy moved 6.5 points across seeds, under the 10-point line, but that
+stability is misleading: on seeds 42 and 7 the model predicted `take` for all
+31 posts, so both score exactly the share of `take` in the test split (15/31).
 
 ### Confusion matrix
 
 <!-- ⚠️ TYPED AS A MARKDOWN TABLE. The notebook prints one ready to paste.
      An image of a matrix earns nothing. -->
 
-| true \ predicted |  |  |  |
+Seed 42 (section 7 prints the first seed):
+
+| true \ predicted | evidence | take | banter |
 |---|---|---|---|
-| **** |  |  |  |
-| **** |  |  |  |
-| **** |  |  |  |
+| **evidence** | 0 | 4 | 0 |
+| **take** | 0 | 15 | 0 |
+| **banter** | 0 | 12 | 0 |
 
 **My biggest off-diagonal number, and what it means:**
 <!-- Not "the model made mistakes" — WHICH boundary it didn't learn, and which
